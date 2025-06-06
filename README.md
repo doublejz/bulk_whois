@@ -1,3 +1,4 @@
+<div dir="ltr">
 A shell script that uses the whois package to perform a whois on numbous IPs.  The input file should be a list of IP addresses, one per line.  The whois query results will be displayed on screen, so be sure that your window scroll back allows at least the number of IPs that you are resolving. The whois command will try to output the Org Name first. However, if the Org Name isn't available, it will retrieve the Net Name field of the whois.
 
 Dependencies:
