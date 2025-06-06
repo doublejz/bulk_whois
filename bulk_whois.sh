@@ -1,12 +1,13 @@
 #!/bin/bash
 # Bulk Whois Lookup
-# Generates a CSV of Whois lookups from a list of IP addresses.
+# Generates CSV output of Whois lookups from a list of IP addresses.
 
-# File name/path of domain list:
-ip_list='ips.txt' # One IP per line in file.
+# File name/path of IP list. One IP per line in file.
+# Currently set to user input.
+ip_list=$1
 
-# Makes sure theres not hidden chars
-dos2unix $ip_list
+# Quitely makes sure theres no hidden characters.
+dos2unix -q $ip_list
 
 # Seconds to wait between lookups:
 loop_wait='1' # Is set to 1 second.
@@ -15,10 +16,11 @@ echo 'IP Address, Org Name' # Start CSV
 for ip in $(cat $ip_list) # Start looping through IPs
 do
 
+unset result
+
 result=$(whois $ip | grep -i -m 1 OrgName: | awk -F ":        " '{print $2}')
 
-if [ -z ${result+x} ]; then
-    echo "true"
+if [[ -z "${result// }" ]]; then
     result=$(whois $ip | grep -i -m 1 NetName: | awk -F ":        " '{print $2}')
 else
     # Org Name was found and is set.
